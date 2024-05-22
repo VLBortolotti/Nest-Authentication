@@ -13,7 +13,7 @@ export class CreateUserDto {
     @IsNotEmpty()
     password: string;
     
-    date_created: Date | string;
+    date_created?: Date | string;
     
     date_updated?: Date | string;
     
