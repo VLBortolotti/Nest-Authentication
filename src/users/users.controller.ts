@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 
@@ -8,12 +8,23 @@ export class UsersController {
 
     @Post()
     @UsePipes(ValidationPipe)
-    createUser(@Body() createUserDto: CreateUserDto) {
-        return this.usersService.createUser(createUserDto);
+    async createUser(@Body() createUserDto: CreateUserDto, @Res() res: any) {
+        const response = await this.usersService.createUser(createUserDto);
+    
+        response.sendResponse(res);
     }
 
     @Get()
-    getUsers() {
-        return this.usersService.getUsers();
+    async getUsers(@Res() res: any) {
+        const response = await this.usersService.getUsers();
+
+        response.sendResponse(res);
+    }
+
+    @Get('/:id')
+    async getUserById(@Param('id') userId: string, @Res() res: any) {
+        const response = await this.usersService.getUserById(userId);
+
+        response.sendResponse(res);
     }
 }
